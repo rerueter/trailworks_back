@@ -14,6 +14,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: [true, "A phone number is required for signup"]
   },
+  password: {
+    type: String,
+    required: [true, "A password is required for signup."]
+  },
   ecn: {
     name: {
       type: String,
@@ -26,10 +30,6 @@ const UserSchema = mongoose.Schema({
         true,
         "You must enter a phone number for your Emergency Contact."
       ]
-    },
-    password: {
-      type: String,
-      required: [true, "A password is required for signup."]
     }
   },
   emi: {

@@ -22,6 +22,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 //_________________________________________________________Api Routes__
+
 app.use("/api/v1/", routes.user);
 
 //_____________________________________________________Start Listener__
