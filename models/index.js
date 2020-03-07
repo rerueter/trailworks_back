@@ -16,4 +16,7 @@ mongoose
     console.log(`MongoDB *error* (${err})`);
   });
 
-module.exports = {};
+module.exports = {
+  User: require("./User"),
+  Work: require("./Work")
+};
