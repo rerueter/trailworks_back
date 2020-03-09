@@ -42,7 +42,10 @@ const UserSchema = mongoose.Schema({
   avatar: String,
   admin: { type: Boolean, default: false },
   wksCreated: [{ type: Schema.Types.ObjectId, ref: "Work" }],
-  wksAttended: 0,
+  wksAttended: {
+    type: Number,
+    default: 0
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

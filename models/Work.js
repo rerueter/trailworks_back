@@ -10,7 +10,7 @@ const WorkSchema = mongoose.Schema({
     type: String,
     required: [true, "Trail work projects must have a title."]
   },
-  descrip: {
+  description: {
     type: String,
     required: [true, "Trail work projects must include a description"]
   },
@@ -42,3 +42,6 @@ const WorkSchema = mongoose.Schema({
   ],
   complete: { type: Boolean, default: false }
 });
+
+const Work = mongoose.model("Work", WorkSchema);
+module.exports = Work;
