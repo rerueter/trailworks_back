@@ -55,9 +55,58 @@ const update = (req, res) => {
   );
 };
 
+const join = async (req, res) => {
+  try {
+    const foundWork = await db.Work.findById(req.params.id);
+    foundWork.attendees.push(req.session.currentUser.id);
+    foundWork.save();
+    const resObj = {
+      status: 200,
+      data: foundWork.attendees,
+      reqAt: new Date().toLocaleString()
+    };
+    return res.status(200).json(resObj);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "uh oh", err });
+  }
+};
+
+const leave = async (req, res) => {
+  try {
+    const foundWork = await db.Work.findById(req.params.id);
+    foundWork.attendees = foundWork.attendees.filter(
+      worker => worker != req.params.attid
+    );
+    foundWork.save();
+    return res.status(200).json({ data: foundWork.attendees });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "uh oh", err });
+  }
+};
+
+const destroy = async (req, res) => {
+  try {
+    const deletedWork = await db.Work.findByIdAndDelete(req.params.id);
+    const resObj = {
+      status: 200,
+      data: deletedWork,
+      reqAt: new Date().toLocaleString()
+    };
+    return res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "uh oh", err });
+  }
+};
+
 module.exports = {
   index,
   show,
   create,
-  update
+  update,
+  join,
+  leave,
+  destroy
 };
