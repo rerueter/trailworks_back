@@ -35,7 +35,7 @@ app.use(
 
 app.use("/api/v1/", routes.user);
 app.use("/api/v1/", routes.work);
-app.use("/api/v1/", routes.auth);
+app.use("/api/v1/auth/", routes.auth);
 
 //_____________________________________________________Start Listener__
 
