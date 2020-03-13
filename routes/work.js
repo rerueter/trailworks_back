@@ -15,6 +15,9 @@ router.get("/works/:id", controller.work.show);
 router.put("/works/:id", controller.work.update);
 
 //__________________________________________________________Join Work__
+router.get("/works/:id/attendees", controller.work.attendees);
+
+//__________________________________________________________Join Work__
 router.put("/works/:id/attendees", controller.work.join);
 
 //_________________________________________________________Leave Work__

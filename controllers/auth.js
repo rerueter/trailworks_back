@@ -29,7 +29,9 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, foundUser.password);
     if (!isMatch) return res.status(500).json({ msg: "password incorrect" });
     req.session.currentUser = { id: foundUser._id };
-    return res.status(200).json({ msg: "login successful" });
+    return res
+      .status(200)
+      .json({ msg: "login successful", data: foundUser._id });
   } catch (err) {
     return res.status(500).json({ msg: "uh oh" });
   }

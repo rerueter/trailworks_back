@@ -33,8 +33,14 @@ const index = (req, res) => {
 };
 
 const show = (req, res) => {
-  db.Work.findById(req.body.id, (err, foundWork) => {
+  db.Work.findById(req.params.id, (err, foundWork) => {
     if (err) return res.json(err);
+    const resObj = {
+      status: 200,
+      data: foundWork,
+      reqAt: new Date().toLocaleString()
+    };
+    res.json(resObj);
   });
 };
 
@@ -55,6 +61,19 @@ const update = (req, res) => {
   );
 };
 
+const attendees = async (req, res) => {
+  try {
+    const foundWork = await db.Work.findById(req.params.id).populate(
+      "attendees"
+    );
+    const resObj = { data: foundWork.attendees };
+    return res.status(200).json(resObj);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "uh oh", err });
+  }
+};
+
 const join = async (req, res) => {
   try {
     const foundWork = await db.Work.findById(req.params.id);
@@ -62,7 +81,7 @@ const join = async (req, res) => {
     foundWork.save();
     const resObj = {
       status: 200,
-      data: foundWork.attendees,
+      data: foundWork,
       reqAt: new Date().toLocaleString()
     };
     return res.status(200).json(resObj);
@@ -79,7 +98,7 @@ const leave = async (req, res) => {
       worker => worker != req.params.attid
     );
     foundWork.save();
-    return res.status(200).json({ data: foundWork.attendees });
+    return res.status(200).json({ data: foundWork });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: "uh oh", err });
@@ -106,6 +125,7 @@ module.exports = {
   show,
   create,
   update,
+  attendees,
   join,
   leave,
   destroy
