@@ -7,5 +7,7 @@ router.get("/users", controller.user.indexUsers);
 
 router.get("/users/:id", controller.user.showUser);
 
+router.put("/users/:id", controller.user.updateUser);
+
 //____________________________________________________________Exports__
 module.exports = router;

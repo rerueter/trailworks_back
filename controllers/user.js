@@ -1,4 +1,3 @@
-const bcrypt = require("bcryptjs");
 const db = require("../models");
 
 const indexUsers = (req, res) => {
@@ -29,32 +28,29 @@ const showUser = (req, res) => {
     res.json(responseObj);
   });
 };
-//________________________________________________________________MOVED TO AUTH
-// const register = (req, res) => {
-//   bcrypt.genSalt(10, (err, salt) => {
-//     if (err) return res.status(500).json({ msg: "uh oh." });
-//     bcrypt.hash(req.body.password, salt, (err, hash) => {
-//       if (err) return res.status(500).json({ msg: "uh oh." });
-//       const newUser = {
-//         name: req.body.name,
-//         email: req.body.email,
-//         tel: req.body.tel,
-//         password: hash,
-//         ecn: req.body.ecn,
-//         emi: req.body.emi,
-//         avatar: req.body.avatar,
-//         admin: req.body.admin
-//       };
-//       db.User.create(newUser, (err, createdUser) => {
-//         if (err)
-//           return res.status(500).json({ msg: "uh oh. register failed." });
-//         res.status(201).json({ msg: "register success" });
-//       });
-//     });
-//   });
-// };
+
+const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await db.User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    updatedUser.save();
+    const resObj = {
+      status: 200,
+      data: updatedUser,
+      reqAt: new Date().toLocaleString()
+    };
+    return res.status(200).json(resObj);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "uh oh", err });
+  }
+};
 
 module.exports = {
   showUser,
-  indexUsers
+  indexUsers,
+  updateUser
 };
